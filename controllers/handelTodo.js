@@ -5,11 +5,11 @@ const getAllTodos = async (req,res) =>{
      if(!todos){
         return res.json({'message': 'No todos are found'})
      }
-     res.send(todos);
+     const coundDocument = await todo.countDocuments();
+     res.json({'message':`Total number of documents: ${coundDocument}`, data:todos});
  }
-
 const getTodo = async (req,res)=>{
-    let oneTodo = await todo.findOne({title: req.params.title}).exec();
+    let oneTodo = await todo.findById(req.params.id).exec();
     if(!oneTodo) return res.json({'message': 'No todos are found'});
     res.send(oneTodo);
 }
@@ -43,10 +43,20 @@ const updateTodo = async (req,res)=>{
    const results = await foundTodo.save();
    res.json({message: "Updated ", data: results})
 }
+const findAndDelete = async(req,res)=>{
+    const foundTodo = await todo.findByIdAndDelete(req.params.id,).exec()
+    if(!foundTodo){
+        res.json({'message': `No Todo was found by this ID${req.params.id}`})
+       }
+    res.json({message: "Deleted ", data: foundTodo})
+
+}
+
 module.exports = {
     getAllTodos,
     getTodo,
     addTodo,
     deleteTodo,
-    updateTodo
+    updateTodo,
+    findAndDelete
 }
