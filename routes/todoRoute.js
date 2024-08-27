@@ -3,9 +3,9 @@ const handelTodo = require('../controllers/handelTodo')
 const router = express.Router();
 
 router.get('/todo',handelTodo.getAllTodos)
-.get('/todo/:title', handelTodo.getTodo)
+.get('/todo/:id', handelTodo.getTodo)
 .post('/todo', handelTodo.addTodo)
-.delete('/todo/:title', handelTodo.deleteTodo)
+.delete('/todo/:id', handelTodo.findAndDelete)
 .put('/todo/:title', handelTodo.updateTodo);
 
 
